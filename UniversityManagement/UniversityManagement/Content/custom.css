@@ -1,0 +1,54 @@
+﻿.myclass {
+    margin-left: 0px;
+    font-size: 30px;
+    font-family: Monoton;
+}
+@media (min-width: 576px) {
+    .myclass {
+        margin-left: 76px;
+            font-size: 31px;
+    }                                
+}
+.logo {
+    margin-left: 15px;
+    font-size: 47px;
+}
+.menual {
+    margin-right: 30px;
+    font-size: 20px;
+}
+
+/*footer*/
+        .footer {
+            background: #152F4F;
+            color: white;
+        }
+
+        ul {
+            list-style-type: none;
+        }
+
+        li a {
+            color: white;
+            transition: color .2s;
+        }
+
+        .about-company i {
+            font-size: 25px;
+        }
+
+        .about-company a {
+            color: white;
+            transition: color .2s;
+        }
+
+        .location i {
+            font-size: 18px;
+        }
+
+        .about-company img {
+            width: 200px;
+            margin-top: 10px;
+            margin-left: 5px;
+        }
+   

@@ -1,0 +1,130 @@
+﻿@using UniversityManagement.Models
+
+@{
+    //Layout = null;
+    Student stuinfo = ViewBag.Allinfo;
+}
+
+
+<head>
+
+
+    <meta name="viewport" content="width=device-width" />
+    <title>ViewResult</title>
+    <link href="~/Content/DataTables/css/dataTables.bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/DataTables/css/jquery.dataTables.min.css" rel="stylesheet" />
+    <link href="~/Content/custom.css" rel="stylesheet" />
+    <style>
+        .tdname {
+            font-size: 20px;
+            padding-right: 14px;
+        }
+
+        .tdvalue {
+            width: 240px;
+            border: 2px solid #2c3e50;
+            padding: 2px 16px 3px 1px;
+            height: 40px;
+            margin-top: 10px;
+            text-align: center;
+        }
+
+        #tddate {
+            width: 240px;
+            border: 2px solid #2c3e50;
+            border-radius: 10px;
+            height: 40px;
+            margin-top: 10px;
+        }
+
+        .bye {
+            margin-top: 30px;
+        }
+
+        .up {
+            margin-top: 50px;
+        }
+
+        .but {
+            float: right;
+            width: 237px;
+            margin-top: 18px;
+            background-color: violet;
+            border-color: violet;
+            height: 40px;
+        }
+
+            .but:hover {
+                background-color: violet;
+                border-color: violet;
+            }
+
+        .lll {
+            width: 150px;
+        }
+        #ourpro {
+            font-size: 130px;
+            color: purple;
+        }
+    </style>
+
+
+
+
+</head>
+<body>
+    <div class="container">
+        <div class="row up">
+            <div class="col-md-3"></div>
+            <div class="col-md-3 klk">
+                <center>
+
+                    <i class="far fa-user" id="ourpro"></i>
+                </center>
+            </div>
+            <div class="col-md-3">
+                
+                <h6>Name: @stuinfo.Name</h6>
+                <h6>RegistrationNo: @stuinfo.RegistrationNo</h6>
+                <h6>Email: @stuinfo.Email</h6>
+                <h6>ContactNo: @stuinfo.ContactNo</h6>
+                <h6>Address: @stuinfo.Address</h6>
+
+            </div>
+            <div class="col-md-3"></div>
+        </div>
+
+        <div class="row bye">
+
+            <div class="col-md-12 design">
+                <table class="table table-bordered table-striped table-hover" id="routestable">
+                    <thead style="text-align: center">
+                        <tr>
+                            <th>Semester</th>
+                            <th>CourseCode</th>
+                            <th>Course Name</th>
+                            <th>Course Credit</th>
+                            <th>Grade</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableBody" style="text-align: center">
+                        @foreach (ResultView re in ViewBag.All)
+                        {
+                            <tr>
+                                <td>@re.Semester</td>
+                                <td>@re.CourseCode</td>
+                                <td>@re.CourseName</td>
+                                <td>@re.CourseCredit</td>
+                                <td>@re.Grade</td>
+                            </tr>
+                        }
+
+
+                    </tbody>
+
+                </table>
+            </div>
+
+        </div>
+    </div>
+</body>

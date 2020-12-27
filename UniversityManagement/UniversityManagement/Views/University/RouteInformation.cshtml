@@ -1,0 +1,167 @@
+﻿@using UniversityManagement.Models
+@{
+    //Layout = null;
+    List<User> user = ViewBag.Category;
+    List<Routes> routes = ViewBag.routes;
+}
+
+
+    <meta name="viewport" content="width=device-width" />
+    <title>RouteInformation</title>
+    <link href="~/Content/DataTables/css/dataTables.bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/DataTables/css/jquery.dataTables.min.css" rel="stylesheet"/>
+
+    <style>
+        .tdname {
+             font-size: 20px;
+             padding-right: 14px;
+         }
+
+        .tdvalue {
+            width: 237px;
+            border: 2px solid #2c3e50;
+            padding: 5px 5px 7px 30px;
+            height: 40px;
+            margin-top: 10px;
+            text-align: center;
+        }
+
+        #tddate {
+            width: 237px;
+            border: 2px solid #2c3e50;
+            border-radius: 10px;
+            height: 40px;
+            margin-top: 10px;
+        }
+
+        .bye {
+            margin-top: 30px;
+        }
+
+        .up {
+            margin-top: 50px;
+        }
+
+        .but {
+            float: right;
+            width: 237px;
+            margin-top: 18px;
+            background-color: orange;
+            border-color: orange;
+            height: 40px;
+        }
+        .but:hover {
+                background-color: orange;
+                border-color: orange;
+            }
+       
+    </style >
+    
+<body>
+<div class="container">
+    <center>
+        <h1 style="margin-top: 50px; color: #3ea5c1;">Route<i class="fas fa-route" style="font-size: 100px;"></i> Information</h1></center>
+    <form action="" method="POST">
+        <center>
+            <table class="up">
+                <tr>
+                    <td class="tdname">User:</td>
+                    <td>
+                        <select id="userId" class="tdvalue" name="" required="">
+                            <option >Select a User</option>
+                            @foreach (User sp in user)
+                            {
+                                <option value="@sp.Id">@sp.TransportUser</option>
+                            }
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="tdname">Routes:</td>
+                    <td>
+                        <select id="id" class="tdvalue" name="" required="">
+                            <option>Select a Route</option>
+                            @foreach (Routes sp in routes)
+                            {
+                                <option value="@sp.Id">@sp.RoutesName</option>
+                            }
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><button class="btn btn-info but" id="searchbtn">Search</button></td>
+                </tr>
+            </table>
+        </center>
+
+    </form>
+    <div class="row bye">
+
+        <div class="col-md-12 design">
+            <table class="table table-bordered table-striped table-hover" id="routestable">
+                <thead style="text-align: center">
+                    <tr>
+                        <th>Vehicles No.</th>
+                        <th>Starting Time</th>
+                        <th>Departure Time</th>
+                        <th>Driver Name</th>
+                        <th>Phone Number</th>
+                    </tr>
+                </thead>
+                <tbody id="tableBody" style="text-align: center"></tbody>
+
+            </table>
+        </div>
+
+    </div>
+</div>
+
+
+
+   
+</body>
+@section scripts
+{
+    <script src="~/Scripts/jquery-3.0.0.min.js"></script>
+<script src="~/Scripts/DataTables/jquery.dataTables.min.js"></script>
+
+<script type="text/javascript">
+        $(document).ready(function () {
+
+
+            var table = $('#routestable').DataTable();
+
+            $('#searchbtn').on('click', function () {
+                table.clear();
+                var id = $('#userId').val();
+                var routeid = $('#id').val();
+                var json = { id: id, routeid: routeid };
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("GetAllRouteInfoById", "University")',
+                    contentType: 'application/json',
+                    data: JSON.stringify(json),
+                    success: function (response) {
+
+                        $.each(response, function (key, value) {
+                            table.row.add([
+                                value.VehicleNo,
+                                value.StartTime,
+                                value.DepartureTime,
+                                value.DriverName,
+                                value.Phone
+
+                            ]).draw(false);
+
+                        });
+
+                    }
+
+                });
+                return false;
+            });
+
+        });
+</script>
+}

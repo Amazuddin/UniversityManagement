@@ -1,0 +1,92 @@
+﻿
+@{
+    //Layout = null;
+}
+
+<head>
+    <title></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+
+    <link href="~/Content/login.css" rel="stylesheet" />
+    <link href="~/Content/fontawesome.min.css" rel="stylesheet"/>
+    <link href="~/Content/fontawesome-all.min.css" rel="stylesheet" />
+</head>
+
+<body>
+<div class="main-bg">
+    <!-- title -->
+    <h1>Login to get more Information</h1>
+
+    <center>
+        @if (ViewBag.Error != null)
+        {
+            <div class="warning" id="warningLabel">
+                <label>Viewbag.Error</label>
+            </div>
+        }
+    </center>
+
+    <!-- //title -->
+    <!-- content -->
+    <div class="sub-main-w3">
+        <div class="bg-content-w3pvt">
+            <div class="top-content-style">
+                <img src="~/picture/aajpeg.jpeg" alt=""/>
+            </div>
+            <form action="#" method="post">
+                <p class="legend">Login Here<span class="far fa-hand-point-down"></span></p>
+                <div class="input">
+                    <input type="email" placeholder="Email" name="Email" required/>
+                    <span class="fa fa-envelope"></span>
+                </div>
+                <div class="input">
+                    <input type="password" placeholder="Password" name="Password" required/>
+                    <span class="fas fa-unlock"></span>
+                </div>
+                @*<div class="input">
+                    <select>
+                        <option value="">Select a Category</option>
+                        <option value="1">Student</option>
+                        <option value="2">Teacher</option>
+                        <option value="3">Official</option>
+                    </select>
+                    <span class="fas fa-user"></span>
+                </div>*@
+                <button type="submit" class="btn submit">
+                    <span class="fas fa-sign-in-alt"></span>
+                </button>
+            </form>
+            <a href="#" class="bottom-text-w3ls">Forgot Password?</a>
+        </div>
+    </div>
+    <div class="copyright">
+        <h2>
+            BGC Trust University Bangladesh.
+        </h2>
+    </div>
+</div>
+</body>
+@section scripts
+{
+    <script src="~/Scripts/bootstrap-datepicker.min.js"></script>
+    <script src="~/Scripts/bootstrap-datepicker.js"></script>
+    <script type="text/javascript">
+
+
+    $(document).ready(function () {
+
+        setTimeout(function () {
+            $("#warningLabel").hide(1000).empty();
+        }, 5000);
+
+
+
+       
+    });
+
+
+
+    </script>
+
+}

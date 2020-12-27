@@ -1,0 +1,109 @@
+﻿@model IEnumerable<UniversityManagement.Models.RouteInformations>
+
+@{
+    ViewBag.Index = "active";
+    //Layout = null;
+}
+
+
+    <link href="~/Content/DataTables/css/dataTables.bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/DataTables/css/jquery.dataTables.min.css" rel="stylesheet" />
+    <style>
+        .col-sz {
+            width: 100px;
+        }
+
+        .wod {
+            width: 90%;
+            margin-bottom: 2px;
+        }
+
+        .x-boxdev {
+            margin: 30px 30px 30px 30px;
+            /*box-shadow: 2px 2px 2px 2px #34404c;*/
+            padding: 30px;
+        }
+
+        .newbox {
+            margin-bottom: 45px;
+        }
+    </style>
+<body>
+<div class="x-boxdev">
+    <center>
+        <p>
+            @Html.ActionLink("Add RouteInformation", "Create", null, new {@class = "newbox btn btn-primary"})
+        </p>
+    </center>
+    <table id="datatable" class="table table-bordered table-striped table-hover">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.VehicleNo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RouteId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UserId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StartTime)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DepartureTime)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DriverName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Phone)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.VehicleNo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RouteId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UserId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StartTime)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DepartureTime)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DriverName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Phone)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new {id = item.Id}, new {@class = "btn btn-primary wod"}) <br/>
+                    @Html.ActionLink("Delete", "Delete", new {id = item.Id}, new {@class = "btn btn-danger wod"})
+                </td>
+            </tr>
+        }
+
+    </table>
+</div>
+
+    
+</body>
+@section scripts
+{
+    <script src="~/Scripts/DataTables/jquery.dataTables.js"></script>
+<script>
+    $(document).ready(function () {
+        var table = $('#datatable').DataTable();
+    });
+</script>
+
+}

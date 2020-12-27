@@ -1,0 +1,142 @@
+﻿@using UniversityManagement.Models
+@{
+   // Layout = null;
+}
+
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Teacher</title>
+    <style>
+        .testing {
+            height: 370px;
+            margin: 10px;
+            padding: 0px;
+            text-align: center;
+            box-shadow: -1px 2px 18px wheat;
+        }
+
+            .testing:hover {
+                box-shadow: -1px 2px 18px #526152;
+            }
+
+        .testing-image {
+            width: 100%;
+            height: 210px;
+        }
+
+        .me-test {
+            font-size: 10px;
+            margin-top: 5px;
+            padding: 5px 5px;
+            text-align: center;
+            /*height: inherit;*/
+            color: black;
+        }
+
+        .warning {
+            background-color: orange;
+            color: black;
+            font-weight: 400;
+            padding: 10px;
+            border-radius: 9px;
+            width: 28em;
+            text-align: center;
+            box-shadow: -1px 4px 1px 1px #bcc4cc;
+            margin-bottom: 37px;
+            font-size: 15px;
+        }
+    </style>
+</head>
+<body>
+
+
+    <div class="container">
+        <form action="Teacher" method="POST">
+            <div class="row" style="padding: 30px;">
+               
+                <div class="col-md-12">
+                    <center>
+                        <table>
+                            <tr>
+                                <td>
+
+
+                                    <select id="Hospitalnames" class="form-control" name="HospitalId" style="width: 330px; height: 43px;">
+                                        <option value="">Select a Department</option>
+                                        @foreach (Department dc in ViewBag.dept)
+                                        {
+                                            <option value="@dc.Id">@dc.Name</option>
+                                        }
+                                    </select>
+                                </td>
+                            </tr>
+                        </table>
+                    </center>
+                </div>
+               
+            </div>
+
+
+            <div class="row docrow" id="drow">
+                @foreach (Teacher teacher in ViewBag.Teacher)
+                {
+                    <div class="col-md-3" style="margin-bottom: 36px;">
+                        <div class="testing">
+                            <img class=" @*rounded-circle*@ testing-image" src="~/@teacher.Image">
+                            <div class="me-test">
+                                <h6>@teacher.Name</h6>
+                                <h6>@teacher.Designation</h6>
+                                <h6>@teacher.Degree</h6>
+                                <h6>@teacher.Email</h6>
+                            </div>
+                        </div>
+                    </div>
+
+                }
+
+            </div>
+        </form>
+    </div>
+</body>
+@section scripts{
+  
+    <script type="text/javascript">
+
+
+
+        $(document).ready(function () {
+
+            $('#Hospitalnames').on('change', function () {
+
+                $('#drow').show();
+                var docId = $('#Hospitalnames').val();
+                if (docId === null)
+                    reload();
+                console.log(docId);
+                $('#drow').empty();
+
+                var json = { id: docId };
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("GetAllTeacherById", "University")',
+                    contentType: 'application/json',
+                    data: JSON.stringify(json),
+                    success: function (response) {
+
+                        $.each(response, function (key, value) {
+                            $('#drow').append('<div class="col-md-3" style="margin-bottom: 36px;">' +
+                                '<div class="testing">' +
+                                '<img class=" testing-image" src="/' + value.Image + '"/>' +
+                                '<div class="me-test"> <h6>' + value.Name + '</h6><h6>' + value.Designation + '</h6><h6>' + value.Degree + '</h6><h6>' + value.Email + '</h6> </div></div></div>');
+
+                        });
+                    }
+                });
+            });
+
+        });
+
+    </script>
+}
+
+

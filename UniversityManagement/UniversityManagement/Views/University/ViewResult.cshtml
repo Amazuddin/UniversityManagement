@@ -1,0 +1,149 @@
+﻿@using UniversityManagement.Models
+
+@{
+    //Layout = null;
+    
+}
+
+
+<head>
+  
+    
+    <meta name="viewport" content="width=device-width" />
+    <title>ViewResult</title>
+    <link href="~/Content/DataTables/css/dataTables.bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/DataTables/css/jquery.dataTables.min.css" rel="stylesheet" />
+    <link href="~/Content/custom.css" rel="stylesheet" />
+    <style>
+        .tdname {
+            font-size: 20px;
+            padding-right: 14px;
+        }
+
+        .tdvalue {
+            width: 240px;
+            border: 2px solid #2c3e50;
+            padding: 2px 16px 3px 1px;
+            height: 40px;
+            margin-top: 10px;
+            text-align: center;
+        }
+
+        #tddate {
+            width: 240px;
+            border: 2px solid #2c3e50;
+            border-radius: 10px;
+            height: 40px;
+            margin-top: 10px;
+        }
+
+        .bye {
+            margin-top: 30px;
+        }
+
+        .up {
+            margin-top: 50px;
+        }
+
+        .but {
+            float: right;
+            width: 237px;
+            margin-top: 18px;
+            background-color: violet;
+            border-color: violet;
+            height: 40px;
+        }
+
+            .but:hover {
+                background-color: violet;
+                border-color: violet;
+            }
+
+        .lll {
+            width: 150px;
+        }
+    </style>
+
+
+
+
+</head>
+<body>
+    <div class="container">
+       
+        <form action="" method="POST">
+            <center>
+                <table class="up">
+                    <tr>
+                        <td class="tdname">Reg No:</td>
+                        <td>
+                            <select id="stuId" class="tdvalue" name="" required="">
+                                <option>Select RegNo</option>
+                                @foreach (Student sp in ViewBag.Student)
+                                {
+                                    <option value="@sp.Id">@sp.RegistrationNo</option>
+                                }
+                            </select>
+                        </td>
+
+
+                </table>
+            </center>
+
+        </form>
+        <div class="row bye">
+
+            <div class="col-md-12 design">
+                <table class="table table-bordered table-striped table-hover" id="routestable">
+                    <thead style="text-align: center">
+                        <tr>
+                            <th>CourseCode</th>
+                            <th>Course Name</th>
+                            <th>Course Credit</th>
+                            <th>Grade</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableBody" style="text-align: center"></tbody>
+
+                </table>
+            </div>
+
+        </div>
+    </div>
+</body>
+@section scripts
+{
+
+    <script src="~/Scripts/jquery-3.0.0.min.js"></script>
+    <script src="~/Scripts/DataTables/jquery.dataTables.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var table = $('#routestable').DataTable();
+
+            $('#stuId').on('change', function () {
+                var deptId = $('#stuId').val();
+
+                table.clear().draw(false);
+                var json = { id: deptId };
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("GetResultbyStudentreg", "University")',
+                    contentType: 'application/json',
+                    data: JSON.stringify(json),
+                    success: function (response) {
+                        $.each(response, function (key, value) {
+                   
+                            table.row.add([
+                                value.CourseCode,
+                                value.CourseName,
+                                value.CourseCredit,
+                                value.Grade
+                            ]).draw(false);
+                        });
+                    }
+                });
+                return false;
+            });
+        });
+    </script>
+}

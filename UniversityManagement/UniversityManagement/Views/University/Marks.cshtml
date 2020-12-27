@@ -1,0 +1,260 @@
+﻿
+@{
+    //Layout = null;
+}
+<link href="~/Content/bootstrap-datepicker.min.css" rel="stylesheet" />
+<link href="~/Content/bootstrap-datepicker.css" rel="stylesheet" />
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        .brbox {
+            margin-right: 5px;
+            border-left: 2px solid cadetblue;
+        }
+
+        input[type=text], select, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            resize: vertical;
+        }
+
+        label {
+            padding: 12px 12px 12px 0;
+            display: inline-block;
+            font-size: 20px;
+        }
+
+        input[type=submit] {
+            background-color: #4CAF50;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            float: right;
+            font-family: Comic Sans MS;
+            width: 300px;
+            margin-top: 20px;
+            font-size: 18px;
+        }
+
+            input[type=submit]:hover {
+                background-color: orangered;
+                transition-duration: 5s;
+            }
+
+        .mar {
+            margin-top: 50px;
+            margin-bottom: 50px;
+            border-radius: 40px;
+            background-color: #f2f2f2;
+            padding: 20px;
+            box-shadow: 0px 0px 30px 0px #b496ce;
+        }
+
+        .col-25 {
+            float: left;
+            width: 25%;
+            margin-top: 6px;
+            font-family: Candara;
+        }
+
+        .col-75 {
+            float: left;
+            width: 75%;
+            margin-top: 6px;
+            font-family: Candara;
+            /*font-weight: bold;*/
+        }
+
+        /* Clear floats after the columns */
+        .row:after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+
+        @@media screen and (max-width: 600px) {
+            .col-25, .col-75, input[type=submit] {
+                width: 100%;
+                margin-top: 2px;
+            }
+        }
+
+        .pha_pro {
+            margin-top: 15px;
+            margin-bottom: 20px;
+        }
+    </style>
+<body>
+<div class="container mar">
+    <div class="pha_pro">
+        <center>
+
+            <h1>Marks & Grade Add</h1>
+        </center>
+    </div>
+    <div class="row">
+
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+            <center>
+                @if (ViewBag.Yes == '1')
+                {
+                    <div class="warning" id="warningLabel">
+                    <label>Send Successfully</label>
+                    </div>
+                }
+            </center>
+            <form action="#" method="POST">
+                <div class="row">
+                    <div class="col-25">
+                        <label for="inputName">Reg No:</label>
+                    </div>
+                    <div class="col-75">
+                        <select name="StudentId" class="form-control">
+                            <option value="">Select Reg</option>
+                            @foreach (var v in ViewBag.Student)
+                            {
+                                <option value="@v.Id">@v.RegistrationNo</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-25">
+                        <label for="Address">Department:</label>
+                    </div>
+                    <div class="col-75">
+                        <select name="DepartmentId" class="form-control">
+                            <option value="">Select Department</option>
+                            @foreach (var v in ViewBag.Department)
+                            {
+                                <option value="@v.Id">@v.Name</option>
+                            }
+                        </select>
+
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-25">
+                        <label for="Semester">Semester:</label>
+                    </div>
+                    <div class="col-75">
+                        <select id="Semester" name="SemesterId" class="form-control">
+                            <option value="">Select Semester</option>
+                            @foreach (var v in ViewBag.Semester)
+                            {
+                                <option value="@v.Id">@v.Name</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-25">
+                        <label for="Age">Course:</label>
+                    </div>
+                    <div class="col-75">
+                        <select id="CourseId" name="CourseId" class="form-control">
+                            <option>Select Course</option>
+                        </select>
+                    </div>
+                </div>
+
+
+
+                <div class="row">
+                    <div class="col-25">
+                        <label for="checkbox">Grade:</label>
+                    </div>
+                    <div class="col-75">
+                        <select name="GradeId" class="form-control">
+                            <option value="">Select Grade</option>
+                            @foreach (var v in ViewBag.Grade)
+                            {
+                                <option value="@v.Id">@v.Name</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-25">
+                        <label for="Test">Date:</label>
+                    </div>
+                    <div class="col-75 ">
+                        <input type="text" id="dates" placeholder="Date" name="Date" class="form-control" autocomplete="off">
+                    </div>
+
+                </div>
+
+                <div class="row">
+                    <div class="col-25">
+                    </div>
+                    <div class="col-75">
+                        <input type="submit" value="Add" >
+                    </div>
+
+                </div>
+            </form>
+        </div>
+        <div class="col-md-2"> </div>
+    </div>
+
+</div>
+   
+</body>
+@section scripts
+{
+    <script src="~/Scripts/bootstrap-datepicker.min.js"></script>
+<script src="~/Scripts/bootstrap-datepicker.js"></script>
+<script type="text/javascript">
+
+
+    $(document).ready(function () {
+
+        setTimeout(function () {
+            $("#warningLabel").hide(1000).empty();
+        }, 5000);
+
+
+
+        var asiaTime = new Date().toLocaleString("en-US", { timeZone: "Asia/Dhaka" });
+        var date = new Date(asiaTime);
+        $('#dates').datepicker({
+            startDate: date,
+            autoclose: true,
+            todayHighlight: true
+        });
+
+
+        $('#Semester').on('change', function () {
+            var id = $('#Semester').val();
+
+
+            var json = { id: id };
+
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("GetCoursebyStudentsem", "University")',
+                contentType: 'application/json',
+                data: JSON.stringify(json),
+                success: function (response) {
+                    $.each(response, function (key, value) {
+                        $('#CourseId').append('<option value="' + value.Id + '">' + value.Name + '</option>');
+                    });
+                }
+            });
+           
+        });
+    });
+
+
+
+</script>
+
+}

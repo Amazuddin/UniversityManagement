@@ -1,0 +1,176 @@
+﻿@model UniversityManagement.Models.Teacher
+
+@{
+    //Layout = null;
+}
+
+<style>
+    .b-box {
+        margin: 26px 139px;
+        background-color: #faf8f3;
+        padding: 41px;
+        border: 1px steelblue;
+        border-radius: 25px;
+    }
+
+    .bbt {
+        width: 31%;
+        margin-left: 21em;
+    }
+
+    .warning {
+        /* color: red; */
+        font-weight: 400;
+        padding: 10px;
+        border-radius: 9px;
+        width: 28em;
+        text-align: center;
+        box-shadow: -1px 4px 1px 1px #34404c;
+        margin-bottom: 11px;
+    }
+
+    .error {
+        color: red;
+    }
+</style>
+
+<div class="b-box">
+    <center>
+        @if (ViewBag.Message != null)
+        {
+
+            <div class="warning" style="background-color: #46e86d;" id="warningLabel">
+                <label>@ViewBag.Message</label>
+            </div>
+
+        }
+    </center>
+    @using (Html.BeginForm("Create", "TeacherAdmin", FormMethod.Post, new { name = "insertForm", id = "insertForm", enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+        <div class="form-horizontal">
+            <center>
+                <h3 style="margin-bottom: 25px;">Add Teacher</h3>
+            </center>
+            @Html.ValidationSummary(true)
+            <div class="form-group row">
+                <div class="col-md-2"> </div>
+                @Html.LabelFor(model => model.DepartmentId, new { @class = "control-label col-md-2" })
+                <div class="col-md-6">
+                    <select name="DepartmentId" class="form-control">
+                        <option value="">Select Category</option>
+                        @foreach (var v in ViewBag.Department)
+                        {
+                            <option value="@v.Id">@v.Name</option>
+                        }
+                    </select>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-md-2"> </div>
+                @Html.LabelFor(model => model.Name, new { @class = "control-label col-md-2" })
+                <div class="col-md-6">
+                    @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Name)
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-md-2"> </div>
+                @Html.LabelFor(model => model.Email, new { @class = "control-label col-md-2" })
+                <div class="col-md-6">
+                    @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Email)
+                </div>
+            </div>
+          
+            <div class="form-group row">
+                <div class="col-md-2"> </div>
+                @Html.LabelFor(model => model.Image, new { @class = "control-label col-md-2" })
+                <div class="col-md-6">
+                    @Html.TextBoxFor(model => model.Image, new { Type = "file" })
+                    @Html.ValidationMessageFor(model => model.Image)
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-md-2"> </div>
+                @Html.LabelFor(model => model.Degree, new { @class = "control-label col-md-2" })
+                <div class="col-md-6">
+                    @Html.EditorFor(model => model.Degree, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Degree)
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-md-2"> </div>
+                @Html.LabelFor(model => model.Designation, new { @class = "control-label col-md-2" })
+                <div class="col-md-6">
+                    @Html.EditorFor(model => model.Designation, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Designation)
+                </div>
+            </div>
+           
+
+            <div class="form-group row">
+                <div class="col-md-12" style="position: absolute; text-align: center;">
+                    <input type="submit" value="Create" style="width: 23%" class="btn btn-primary" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12" style="text-align: center; margin-top: 27px;">
+                    @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-warning bbt" })
+                </div>
+            </div>
+            <div>
+            </div>
+        </div>
+    }
+
+</div>
+@section scripts{
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            setTimeout(function () {
+                $("#warningLabel").hide(1000).empty();
+            }, 5000);
+        });
+        $("#insertForm").validate({
+            rules: {
+                Name: "required",
+                Email: {
+                    required: true,
+                    email: true
+                },
+                Degree: {
+                    required: true
+
+                },
+
+                Designation: {
+                    required: true
+                  
+                },
+
+                DepartmentId: "required",
+                Image: "required"
+            },
+            messages: {
+                Name: "Please Enter a Teacher Name",
+                Email: {
+                    required: "Please Enter A New Email id",
+                    email: "Email id not correct"
+                },
+               
+                Image: "Please Select an Image",
+                Degree: {
+                    required: "Please Enter Teacher's Degrees"
+
+                },
+                Designation: "Please Enter Teacher's Designation",
+                DepartmentId: "Please Select Category"
+
+            }
+
+        });
+    </script>
+}

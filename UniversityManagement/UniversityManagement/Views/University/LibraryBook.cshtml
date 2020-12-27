@@ -1,0 +1,182 @@
+﻿@using UniversityManagement.Models
+@{
+   // Layout = null;
+    List<Department> dep = ViewBag.dept;
+    //var i = 1;
+}
+
+
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Library Book</title>
+    <link href="~/Content/DataTables/css/dataTables.bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/DataTables/css/jquery.dataTables.min.css" rel="stylesheet" />
+    <link href="~/Content/fontawesome.min.css" rel="stylesheet" />
+    <link href="~/Content/fontawesome-all.min.css" rel="stylesheet" />
+    <link href="~/Content/custom.css" rel="stylesheet" />
+    <style>
+        .tdname {
+            font-size: 20px;
+            padding-right: 14px;
+        }
+
+        .tdvalue {
+            width: 240px;
+            border: 2px solid #2c3e50;
+            padding: 2px 16px 3px 1px;
+            height: 40px;
+            margin-top: 10px;
+            text-align: center;
+        }
+
+        #tddate {
+            width: 240px;
+            border: 2px solid #2c3e50;
+            border-radius: 10px;
+            height: 40px;
+            margin-top: 10px;
+        }
+
+        .bye {
+            margin-top: 30px;
+        }
+
+        .up {
+            margin-top: 50px;
+        }
+
+        .but {
+            float: right;
+            width: 237px;
+            margin-top: 18px;
+            background-color: violet;
+            border-color: violet;
+            height: 40px;
+        }
+
+            .but:hover {
+                background-color: violet;
+                border-color: violet;
+            }
+        .lll {
+            width: 150px;
+        }
+    </style>
+
+
+
+
+
+</head>
+<body>
+    <div class="container">
+        <center>
+            <h1 style="margin-top: 50px; color: slateblue;">Library<i class="fas fa-book" style="font-size: 100px;"></i>Book</h1>
+        </center>
+        <form action="" method="POST">
+            <center>
+                <table class="up">
+                    <tr>
+                        <td class="tdname">Department:</td>
+                        <td>
+                            <select id="deptId" class="tdvalue" name="" required="">
+                                <option>Select a Department</option>
+                                @foreach (Department sp in dep)
+                                {
+                                    <option value="@sp.Id">@sp.Name</option>
+                                }
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="tdname">Semester:</td>
+                        <td>
+                            <select id="id" class="tdvalue" name="" required="">
+                                <option>Select a Semester</option>
+                                <option value="1">1st</option>
+                                <option value="2">2nd</option>
+                                <option value="3">3rd</option>
+                                <option value="4">4th</option>
+                                <option value="5">5th</option>
+                                <option value="6">6th</option>
+                                <option value="7">7th</option>
+                                <option value="8">8th</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td><button class="btn btn-info but" id="searchbtn">Search</button></td>
+                    </tr>
+                </table>
+            </center>
+
+        </form>
+        <div class="row bye">
+
+            <div class="col-md-12 design">
+                <table class="table table-bordered table-striped table-hover" id="routestable">
+                    <thead style="text-align: center">
+                        <tr>
+                            <th>Serial No.</th>
+                            <th>Book Name</th>
+                            <th>PDF</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableBody" style="text-align: center">
+                    </tbody>
+
+                </table>
+            </div>
+
+        </div>
+    </div>
+
+
+
+    
+</body>
+@section scripts
+{
+<script src="~/Scripts/jquery-3.0.0.min.js"></script>
+<script src="~/Scripts/DataTables/jquery.dataTables.min.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var table = $('#routestable').DataTable();
+          
+            $('#searchbtn').on('click', function () {
+                table.clear();
+                var id = $('#deptId').val();
+                var semid = $('#id').val();
+                var serialNo = 1;
+                var b = "'";
+                var json = { id: id, semid: semid };
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("GetAllPdfbyId", "University")',
+                    contentType: 'application/json',
+                    data: JSON.stringify(json),
+                    success: function (response) {
+
+                        $.each(response, function (key, value) {
+                            var a = '<a href="#" onclick="window.open(' + b + '../' + value.BookPdf + '' + b + ', ' + b + ' _blank ' + b + ');"><button type="button" class="btn btn-primary lll">PDF</button></a>';
+                            table.row.add([
+                               serialNo,
+                                value.Name,
+                                a
+                            ]).draw(false);
+                            serialNo += 1;
+                        });
+
+                    }
+
+                });
+                return false;
+            });
+
+        });
+</script>
+}
+
